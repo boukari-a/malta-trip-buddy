@@ -15,12 +15,13 @@
 }
 
 .navbar-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 2rem;
 }
 
 .navbar-brand {
@@ -52,6 +53,64 @@
   margin: 0;
 }
 
+.navbar-links {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  font-weight: 600;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
 .logout-button {
   padding: 10px 24px;
   background: rgba(255, 255, 255, 0.2);
@@ -79,9 +138,22 @@
 }
 
 .main-content {
-  max-width: 1200px;
+  padding: 0;
+  background-color: #f5f7fa;
+  min-height: calc(100vh - 88px);
+}
+
+.page-placeholder {
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 48px 24px;
+  padding: 3rem 2rem;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #64748b;
+  background: white;
+  border-radius: 12px;
+  margin: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .welcome-section {
@@ -209,10 +281,45 @@
   letter-spacing: 0.5px;
 }
 
+@media (max-width: 1024px) {
+  .navbar-links {
+    gap: 0.25rem;
+  }
+  
+  .nav-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 13px;
+  }
+  
+  .nav-link svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
 @media (max-width: 768px) {
   .navbar-content {
-    flex-direction: column;
-    gap: 16px;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .navbar-brand {
+    flex: 1;
+  }
+  
+  .navbar-user {
+    order: 3;
+  }
+  
+  .navbar-links {
+    flex-basis: 100%;
+    order: 4;
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+  
+  .nav-link span {
+    display: none;
   }
 
   .welcome-section h1 {
@@ -227,7 +334,9 @@
     grid-template-columns: 1fr;
   }
 
-  .main-content {
-    padding: 32px 16px;
+  .page-placeholder {
+    margin: 1rem;
+    padding: 2rem 1rem;
+    font-size: 1.25rem;
   }
 }

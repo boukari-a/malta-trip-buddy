@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
+import Dashboard from "./Dashboard";
 import "./App.css";
 
 function App() {
   const [token, setToken] = useState(null);
   const [showRegister, setShowRegister] = useState(false);
+  const [currentPage, setCurrentPage] = useState('dashboard');
 
   if (!token) {
     if (showRegister) {
@@ -13,6 +15,21 @@ function App() {
     }
     return <Login setToken={setToken} onSwitchToRegister={() => setShowRegister(true)} />;
   }
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'dashboard':
+        return <Dashboard />;
+      case 'places':
+        return <div className="page-placeholder">Places - Coming Soon</div>;
+      case 'recommendations':
+        return <div className="page-placeholder">Recommendations - Coming Soon</div>;
+      case 'preferences':
+        return <div className="page-placeholder">Preferences - Coming Soon</div>;
+      default:
+        return <Dashboard />;
+    }
+  };
 
   return (
     <div className="app-container">
@@ -28,103 +45,63 @@ function App() {
               </div>
               <h2 className="navbar-title">Malta Trip Buddy</h2>
             </div>
-            <button onClick={() => setToken(null)} className="logout-button">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
-              </svg>
-              Logout
-            </button>
+            
+            <div className="navbar-links">
+              <button 
+                className={`nav-link ${currentPage === 'dashboard' ? 'active' : ''}`}
+                onClick={() => setCurrentPage('dashboard')}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                </svg>
+                Dashboard
+              </button>
+              
+              <button 
+                className={`nav-link ${currentPage === 'places' ? 'active' : ''}`}
+                onClick={() => setCurrentPage('places')}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                Places
+              </button>
+              
+              <button 
+                className={`nav-link ${currentPage === 'recommendations' ? 'active' : ''}`}
+                onClick={() => setCurrentPage('recommendations')}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                Recommendations
+              </button>
+              
+              <button 
+                className={`nav-link ${currentPage === 'preferences' ? 'active' : ''}`}
+                onClick={() => setCurrentPage('preferences')}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+                </svg>
+                Preferences
+              </button>
+            </div>
+
+            <div className="navbar-user">
+              <div className="user-avatar">D</div>
+              <button onClick={() => setToken(null)} className="logout-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                </svg>
+              </button>
+            </div>
           </div>
         </nav>
 
         {/* Main Content */}
         <main className="main-content">
-          {/* Welcome Section */}
-          <section className="welcome-section">
-            <div className="welcome-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
-            </div>
-            <h1>Welcome to Malta! 🏝️</h1>
-            <p>You're successfully logged in and ready to explore</p>
-            <div className="status-badge">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
-              Authentication Active
-            </div>
-          </section>
-
-          {/* Features Grid */}
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
-              </div>
-              <h3>Discover Places</h3>
-              <p>Explore Malta's most beautiful locations, from historic sites to pristine beaches. Get personalized recommendations based on your preferences.</p>
-              <span className="coming-soon">Coming Soon</span>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                </svg>
-              </div>
-              <h3>Smart Recommendations</h3>
-              <p>Our AI-powered system suggests places tailored to your interests. Save your favorites and build your perfect Malta itinerary.</p>
-              <span className="coming-soon">Coming Soon</span>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
-                </svg>
-              </div>
-              <h3>Trip Planning</h3>
-              <p>Create detailed day-by-day itineraries. Optimize your route and never miss a must-see attraction during your Malta adventure.</p>
-              <span className="coming-soon">Coming Soon</span>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-              </div>
-              <h3>Local Insights</h3>
-              <p>Get insider tips from locals and fellow travelers. Discover hidden gems that aren't in typical tourist guides.</p>
-              <span className="coming-soon">Coming Soon</span>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2l-5.5 9h11z M12 22l5.5-9h-11z"/>
-                  <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0"/>
-                </svg>
-              </div>
-              <h3>Interactive Maps</h3>
-              <p>Navigate Malta with ease using our interactive maps. View distances, travel times, and nearby attractions in real-time.</p>
-              <span className="coming-soon">Coming Soon</span>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                </svg>
-              </div>
-              <h3>Community Reviews</h3>
-              <p>Read authentic reviews from travelers who've been there. Share your own experiences and help others plan their trips.</p>
-              <span className="coming-soon">Coming Soon</span>
-            </div>
-          </div>
+          {renderPage()}
         </main>
       </div>
     </div>
