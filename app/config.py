@@ -7,4 +7,8 @@ class Settings(BaseSettings):
     JWT_SECRET: str = "supersecretkey"
     JWT_ALGORITHM: str = "HS256"
 
+    class Config:
+        env_file = ".env"
+        case_sensitive = True
+
 settings = Settings()
