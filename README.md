@@ -35,18 +35,144 @@ cd malta-trip-buddy
 ### 2. Backend Setup
 
 ```powershell
-# Create virtual environment
+🌴 Malta Trip Buddy - Backend
+
+Welcome to the Malta Trip Buddy backend! 🚀 This project is a FastAPI backend for managing trips, users, and authentication. It includes secure password hashing and JWT-based authentication.
+
+📝 Table of Contents
+
+Project Overview
+
+Features
+
+Tech Stack
+
+Installation
+
+Environment Variables
+
+Running the App
+
+API Endpoints
+
+Contributing
+
+License
+
+🌟 Project Overview
+
+Malta Trip Buddy is a travel companion app backend designed to help users plan, join, and track trips in Malta.
+This repository contains the backend powered by FastAPI, with secure password management and database integration.
+
+⚡ Features
+
+✅ User registration and login
+
+✅ Secure password hashing with bcrypt
+
+✅ JWT authentication for protected routes
+
+✅ Trip management (CRUD operations)
+
+✅ Cross-Origin Resource Sharing (CORS) support
+
+✅ Easy local setup with virtual environments
+
+🛠 Tech Stack
+
+Backend: FastAPI
+
+Database: SQLite / PostgreSQL (configurable)
+
+Authentication: JWT & Bcrypt
+
+Password hashing: Passlib
+
+Server: Uvicorn
+
+💾 Installation
+
+Follow these steps to run the backend locally:
+
+Clone the repository
+
+git clone https://github.com/yourusername/malta-trip-buddy.git
+cd malta-trip-buddy/backend
+
+
+Create a virtual environment
+
 python -m venv venv
 
-# Activate virtual environment (Windows)
-.\venv\Scripts\Activate
 
-# Install dependencies with compatible versions
+Activate the virtual environment
+
+Windows:
+
+venv\Scripts\activate
+
+
+Linux / Mac:
+
+source venv/bin/activate
+
+
+Install dependencies
+
+pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
-pip uninstall passlib bcrypt -y
-pip install passlib==1.7.4 bcrypt==3.2.2
-pip install pydantic-settings
 
+
+⚠️ If you encounter bcrypt errors on Windows, reinstall with:
+
+pip uninstall bcrypt passlib -y
+pip install bcrypt==4.0.1 passlib[bcrypt]==1.7.4
+
+🔑 Environment Variables
+
+Create a .env file in the backend folder with the following variables:
+
+SECRET_KEY=your_super_secret_key_here
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+DATABASE_URL=sqlite:///./app.db
+
+
+SECRET_KEY → Random secret key for JWT
+
+DATABASE_URL → Your database URL (SQLite or PostgreSQL)
+
+🚀 Running the App
+
+Start the FastAPI server with auto-reload:
+
+uvicorn app.main:app --reload
+
+
+You should see:
+
+INFO: Uvicorn running on http://127.0.0.1:8000
+
+🌐 API Endpoints
+Authentication
+
+POST /auth/register → Register a new user
+
+POST /auth/login → Login user and get JWT token
+
+Trips
+
+GET /trips/ → Get all trips
+
+POST /trips/ → Create a new trip
+
+GET /trips/{id} → Get a single trip
+
+PUT /trips/{id} → Update a trip
+
+DELETE /trips/{id} → Delete a trip
+
+Protected routes require a Bearer JWT token in the Authorization header.
 ```
 
 ### 3. Configure MongoDB Atlas
