@@ -39,12 +39,14 @@ cd malta-trip-buddy
 python -m venv venv
 
 # Activate virtual environment (Windows)
-.\venv\Scripts\Activate.ps1
+.\venv\Scripts\Activate
 
 # Install dependencies with compatible versions
 pip install -r requirements.txt
 pip uninstall passlib bcrypt -y
 pip install passlib==1.7.4 bcrypt==3.2.2
+pip install pydantic-settings
+
 ```
 
 ### 3. Configure MongoDB Atlas
