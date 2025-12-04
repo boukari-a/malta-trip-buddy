@@ -1,0 +1,14 @@
+cd "C:/Users/mysto/OneDrive/Desktop/pfe malta/project/malta-trip-buddy/malta-trip-buddy/frontend"
+
+npm install
+
+npm run dev
+
+
+
+
+cd "C:/Users/mysto/OneDrive/Desktop/pfe malta/project/malta-trip-buddy/backend"
+
+.\venv\Scripts\activate
+
+uvicorn app.main:app --reload

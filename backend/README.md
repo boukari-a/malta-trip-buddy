@@ -1,0 +1,1 @@
+# malta-trip-buddy

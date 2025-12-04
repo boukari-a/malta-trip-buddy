@@ -1,0 +1,44 @@
+malta-trip-buddy/
+│
+├─ backend/
+│  ├─ app/
+│  │  ├─ models/
+│  │  ├─ routers/
+│  │  ├─ schemas/
+│  │  ├─ utils/
+│  │  ├─ __pycache__/
+│  │  ├─ config.py
+│  │  ├─ database.py
+│  │  ├─ db.py
+│  │  └─ main.py
+│  ├─ .venv/
+│  ├─ venv/
+│  ├─ .env
+│  ├─ requirements.txt
+│  ├─ seed_places.py
+│  └─ test_db.py
+│
+├─ frontend/
+│  ├─ src/
+│  │  ├─ assets/
+│  │  ├─ components/
+│  │  ├─ pages/
+│  │  ├─ services/
+│  │  ├─ App.jsx
+│  │  ├─ api.js
+│  │  ├─ Login.jsx
+│  │  ├─ Register.jsx
+│  │  ├─ Recommendations.jsx
+│  │  ├─ main.jsx
+│  │  └─ CSS files
+│  ├─ public/
+│  │  └─ vite.svg
+│  ├─ node_modules/
+│  ├─ package.json
+│  ├─ package-lock.json
+│  └─ vite.config.js
+│
+├─ .env
+├─ .gitignore
+├─ README.md
+└─ requirements.txt
