@@ -1,0 +1,262 @@
+/* ===================================== */
+/* ✅ MAIN PAGE CONTAINER */
+/* ===================================== */
+
+.prefs-container {
+  padding: 3rem;
+  background: #f5f7fa;
+  min-height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 10px;
+
+}
+
+
+/* ===================================== */
+/* ✅ PAGE HEADER */
+/* ===================================== */
+
+.preferences-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.preferences-header h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.preferences-header p {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-top: 6px;
+}
+
+.prefs-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+
+/* ===================================== */
+/* ✅ MAIN CARD WRAPPER */
+/* ===================================== */
+
+.prefs-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 18px;
+  max-width: 1100px;
+  margin: 0 auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ===================================== */
+/* ✅ LARGE GRID (MAIN SELECTION) */
+/* ===================================== */
+
+.prefs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.prefs-box {
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  background: white;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.prefs-box:hover {
+  background: #f1f5f9;
+}
+
+.prefs-box.active {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: white;
+  border-color: #2563eb;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.4);
+}
+
+
+/* ===================================== */
+/* ✅ SELECTED TAGS PREVIEW */
+/* ===================================== */
+
+.prefs-selected {
+  display: flex;
+  gap: 10px;
+  margin-top: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.prefs-selected span {
+  background: #2563eb;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+
+/* ===================================== */
+/* ✅ SMALL CARD GRID (SETTINGS) */
+/* ===================================== */
+
+.prefs-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  max-width: 1100px;
+  margin: 3rem auto;
+  gap: 1.75rem;
+}
+
+
+/* ===================================== */
+/* ✅ SMALL SETTING CARDS */
+/* ===================================== */
+
+.prefs-small-card {
+  background: white;
+  padding: 1.8rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease;
+  border: 1px solid #e5e7eb;
+}
+
+.prefs-small-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.prefs-small-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: #1f2933;
+}
+
+
+/* ===================================== */
+/* ✅ OPTIONS BUTTON GROUP */
+/* ===================================== */
+
+.prefs-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.prefs-option {
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #334155;
+}
+
+.prefs-option:hover {
+  background: #e0f2fe;
+  border-color: #38bdf8;
+  color: #0369a1;
+}
+
+.prefs-active {
+  background: linear-gradient(135deg, #2563eb, #3b82f6) !important;
+  color: white !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 5px 12px rgba(37, 99, 235, 0.35);
+}
+
+
+/* ===================================== */
+/* ✅ INPUT FIELD STYLE */
+/* ===================================== */
+
+.prefs-input {
+  width: 100%;
+  margin-top: 12px;
+  padding: 11px 14px;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.prefs-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+
+/* ===================================== */
+/* ✅ HELPER TEXT */
+/* ===================================== */
+
+.prefs-small-card small {
+  display: block;
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+
+/* ===================================== */
+/* ✅ SAVE BUTTON */
+/* ===================================== */
+
+.prefs-save,
+.prefs-save-btn {
+  display: block;
+  margin: 3rem auto 0;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: white;
+  padding: 14px 42px;
+  border-radius: 14px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.prefs-save:hover,
+.prefs-save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.4);
+}
+
+
+/* ===================================== */
+/* ✅ MOBILE RESPONSIVE */
+/* ===================================== */
+
+@media (max-width: 768px) {
+  .preferences-page {
+    padding: 1.25rem;
+  }
+
+  .prefs-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .preferences-header {
+    text-align: left;
+  }
+}
