@@ -23,6 +23,8 @@ export default function Places() {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All Places");
   const [budgetFilter, setBudgetFilter] = useState("All Budgets");
+  const [mapPlace, setMapPlace] = useState(null);
+  const [reviewsPlace, setReviewsPlace] = useState(null);
 
   useEffect(() => {
     fetchPlaces();
@@ -58,6 +60,25 @@ export default function Places() {
     if (budget === "Moderate") return "€€";
     if (budget === "Expensive") return "€€€";
     return "";
+  };
+
+  const getMapsEmbedUrl = (place) => {
+    if (
+      place.location &&
+      typeof place.location === "object" &&
+      typeof place.location.lat === "number" &&
+      typeof place.location.lng === "number"
+    ) {
+      return `https://www.google.com/maps?q=${place.location.lat},${place.location.lng}&hl=en&z=14&output=embed`;
+    }
+
+    const query = encodeURIComponent(`${place.name || "Malta place"} Malta`);
+    return `https://www.google.com/maps?q=${query}&hl=en&z=14&output=embed`;
+  };
+
+  const getTripAdvisorUrl = (place) => {
+    const query = encodeURIComponent(`${place.name || "Malta"} Malta Tripadvisor`);
+    return `https://www.tripadvisor.com/Search?q=${query}`;
   };
 
   const filteredPlaces = places.filter((place) => {
@@ -199,8 +220,8 @@ export default function Places() {
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                 </svg>
                 <span>
-                  {typeof place.location === 'string' 
-                    ? place.location 
+                  {typeof place.location === "string"
+                    ? place.location
                     : place.location?.name || "Malta"}
                 </span>
               </div>
@@ -224,7 +245,10 @@ export default function Places() {
               </div>
 
               <div className="place-actions">
-                <button className="place-action-btn">
+                <button
+                  className="place-action-btn"
+                  onClick={() => setReviewsPlace(place)}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -234,7 +258,10 @@ export default function Places() {
                   </svg>
                   Reviews
                 </button>
-                <button className="place-action-btn">
+                <button
+                  className="place-action-btn"
+                  onClick={() => setMapPlace(place)}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -249,6 +276,101 @@ export default function Places() {
           </div>
         ))}
       </div>
+
+      {mapPlace && (
+        <div
+          className="map-modal-backdrop"
+          onClick={() => setMapPlace(null)}
+        >
+          <div
+            className="map-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="map-modal-header">
+              <h3>{mapPlace.name}</h3>
+              <button
+                type="button"
+                className="map-modal-close"
+                onClick={() => setMapPlace(null)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="map-modal-body">
+              <iframe
+                src={getMapsEmbedUrl(mapPlace)}
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+                title={`Map of ${mapPlace.name}`}
+              />
+            </div>
+            <div className="map-modal-footer">
+              <button
+                type="button"
+                className="place-action-btn"
+                onClick={() =>
+                  window.open(
+                    getMapsEmbedUrl(mapPlace).replace("&output=embed", ""),
+                    "_blank"
+                  )
+                }
+              >
+                Open in Google Maps
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {reviewsPlace && (
+        <div
+          className="map-modal-backdrop"
+          onClick={() => setReviewsPlace(null)}
+        >
+          <div
+            className="map-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="map-modal-header">
+              <h3>Tripadvisor reviews for {reviewsPlace.name}</h3>
+              <button
+                type="button"
+                className="map-modal-close"
+                onClick={() => setReviewsPlace(null)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="map-modal-body">
+              <iframe
+                src={getTripAdvisorUrl(reviewsPlace)}
+                width="100%"
+                height="350"
+                style={{ border: 0 }}
+                loading="lazy"
+                title={`Tripadvisor reviews for ${reviewsPlace.name}`}
+              />
+              <p className="reviews-modal-note">
+                If the Tripadvisor page doesn't load here, click the button
+                below to open it in a new tab.
+              </p>
+            </div>
+            <div className="map-modal-footer">
+              <button
+                type="button"
+                className="place-action-btn"
+                onClick={() => window.open(getTripAdvisorUrl(reviewsPlace), "_blank")}
+              >
+                Open on Tripadvisor
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {filteredPlaces.length === 0 && (
         <div className="no-results">

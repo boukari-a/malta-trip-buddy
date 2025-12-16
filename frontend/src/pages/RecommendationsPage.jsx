@@ -2,6 +2,30 @@ import { useEffect, useState } from "react";
 import { getRecommendations } from "../services/api";
 import "./Recommendations.css";
 
+const BACKEND_BASE_URL = "http://127.0.0.1:8000";
+
+const getPlaceImageUrl = (place) => {
+  const placeholder = `https://via.placeholder.com/400x250?text=${encodeURIComponent(
+    place.name || "Malta place"
+  )}`;
+
+  if (!place.image) return placeholder;
+
+  if (place.image.startsWith("/static/")) {
+    return `${BACKEND_BASE_URL}${place.image}`;
+  }
+
+  return place.image;
+};
+
+const getGoogleMapsUrl = (place) => {
+  if (place.location?.lat && place.location?.lng) {
+    return `https://www.google.com/maps/search/?api=1&query=${place.location.lat},${place.location.lng}`;
+  }
+  const query = encodeURIComponent(`${place.name || "Malta place"} Malta`);
+  return `https://www.google.com/maps/search/?api=1&query=${query}`;
+};
+
 export default function RecommendationsPage({ token }) {
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -95,6 +119,14 @@ export default function RecommendationsPage({ token }) {
             return (
               <article key={place.id || index} className="rec-card">
                 <div className="rec-image">
+                  <img
+                    src={getPlaceImageUrl(place)}
+                    alt={place.name}
+                    className="rec-image-photo"
+                    onError={(e) => {
+                      e.target.src = getPlaceImageUrl(place);
+                    }}
+                  />
                   <div className="rec-match-pill">
                     <span>{matchPercent}% match</span>
                   </div>
@@ -128,10 +160,13 @@ export default function RecommendationsPage({ token }) {
                     <div className="rec-meta">
                       <span className="rec-meta-item">Budget: {place.price_level || "medium"}</span>
                       {place.location && (
-                        <span className="rec-meta-item">
-                          Location: {place.location.lat.toFixed(3)}, {" "}
-                          {place.location.lng.toFixed(3)}
-                        </span>
+                        <button
+                          type="button"
+                          className="rec-meta-item rec-location-link"
+                          onClick={() => window.open(getGoogleMapsUrl(place), "_blank")}
+                        >
+                          View on Google Maps
+                        </button>
                       )}
                     </div>
 
