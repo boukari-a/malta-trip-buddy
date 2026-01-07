@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./Dashboard.css";
 
 import OverviewCards from "./components/OverviewCards";
+import { getProfile } from "./services/api";
 
 const BACKEND_BASE_URL = "http://127.0.0.1:8000";
 
@@ -19,13 +20,30 @@ const getPlaceImageUrl = (place) => {
   return place.image;
 };
 
+const getMapsEmbedUrl = (place) => {
+  if (
+    place.location &&
+    typeof place.location === "object" &&
+    typeof place.location.lat === "number" &&
+    typeof place.location.lng === "number"
+  ) {
+    return `https://www.google.com/maps?q=${place.location.lat},${place.location.lng}&hl=en&z=14&output=embed`;
+  }
+
+  const query = encodeURIComponent(`${place.name || "Malta place"} Malta`);
+  return `https://www.google.com/maps?q=${query}&hl=en&z=14&output=embed`;
+};
+
 function Dashboard() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [profileStatus, setProfileStatus] = useState("0%");
+  const [mapPlace, setMapPlace] = useState(null);
 
   useEffect(() => {
     fetchPlaces();
+    loadProfileStatus();
   }, []);
 
   const fetchPlaces = async () => {
@@ -49,6 +67,37 @@ function Dashboard() {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadProfileStatus = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setProfileStatus("0%");
+        return;
+      }
+
+      const profileData = await getProfile(token); // may be null if no profile yet
+      const savedPrefs = JSON.parse(localStorage.getItem("preferences")) || {};
+      const hasPrefs =
+        Array.isArray(savedPrefs.selected) && savedPrefs.selected.length > 0;
+
+      // Define which pieces count toward completion
+      let completed = 0;
+      const total = 4; // name, age, nationality, preferences
+
+      if (profileData?.name) completed += 1;
+      if (profileData?.age) completed += 1;
+      if (profileData?.nationality) completed += 1;
+      if (hasPrefs) completed += 1;
+
+      const percent = Math.round((completed / total) * 100);
+      setProfileStatus(percent === 100 ? "Complete" : `${percent}%`);
+    } catch (err) {
+      // If anything fails, just fall back to 0%
+      console.error("Failed to compute profile status", err);
+      setProfileStatus("0%");
     }
   };
 
@@ -105,7 +154,7 @@ function Dashboard() {
       <OverviewCards
         totalPlaces={places.length}
         recommendations={Math.floor(places.length / 3)}
-        profileStatus="Complete"
+        profileStatus={profileStatus}
       />
 
       <div className="dashboard-header">
@@ -158,14 +207,13 @@ function Dashboard() {
 
               <div className="place-location">
                 📍{" "}
-                <a
-                  href={`https://www.google.com/maps?q=${place.location?.lat},${place.location?.lng}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
                   className="map-link"
+                  onClick={() => setMapPlace(place)}
                 >
                   View on map
-                </a>
+                </button>
               </div>
 
               {place.tags?.length > 0 && (
@@ -181,6 +229,55 @@ function Dashboard() {
           </div>
         ))}
       </div>
+
+      {mapPlace && (
+        <div
+          className="map-modal-backdrop"
+          onClick={() => setMapPlace(null)}
+        >
+          <div
+            className="map-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="map-modal-header">
+              <h3>{mapPlace.name}</h3>
+              <button
+                type="button"
+                className="map-modal-close"
+                onClick={() => setMapPlace(null)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="map-modal-body">
+              <iframe
+                src={getMapsEmbedUrl(mapPlace)}
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+                title={`Map of ${mapPlace.name}`}
+              />
+            </div>
+            <div className="map-modal-footer">
+              <button
+                type="button"
+                className="explore-btn"
+                onClick={() =>
+                  window.open(
+                    getMapsEmbedUrl(mapPlace).replace("&output=embed", ""),
+                    "_blank"
+                  )
+                }
+              >
+                Open in Google Maps
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {places.length === 0 && (
         <div className="no-places">

@@ -63,7 +63,7 @@ function App() {
         return <Places />;
 
       case "recommendations":
-        return <RecommendationsPage token={token} />;
+        return <RecommendationsPage token={token} onNavigate={setCurrentPage} />;
 
       case "preferences":
         return <Preferences token={token} />;

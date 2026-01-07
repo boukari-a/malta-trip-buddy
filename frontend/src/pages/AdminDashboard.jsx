@@ -264,6 +264,13 @@ export default function AdminDashboard({ token }) {
           onChange={handlePlaceInputChange}
         />
 
+        <input
+          name="duration"
+          placeholder="Duration (e.g. 2h, Half day, All day)"
+          value={placeForm.duration}
+          onChange={handlePlaceInputChange}
+        />
+
         <div style={{ display: "flex", gap: "0.5rem" }}>
           <input
             name="lat"

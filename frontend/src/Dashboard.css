@@ -1,11 +1,21 @@
 .map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
   color: #2563eb;
   font-weight: 500;
+  font-size: 0.8rem;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .map-link:hover {
-  text-decoration: underline;
+  background: #dbeafe;
+  border-color: #93c5fd;
 }
 
 
@@ -231,6 +241,56 @@
   display: inline-block;
   font-size: 0.875rem;
   color: #1e293b;
+}
+
+/* Map modal styles (shared with Places / Recommendations) */
+.map-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.map-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  width: min(600px, 90vw);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+  overflow: hidden;
+}
+
+.map-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.map-modal-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #111827;
+}
+
+.map-modal-close {
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.map-modal-body {
+  padding: 0;
+}
+
+.map-modal-footer {
+  padding: 0.75rem 1rem 1rem;
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media (max-width: 768px) {

@@ -18,18 +18,19 @@ const getPlaceImageUrl = (place) => {
   return place.image;
 };
 
-const getGoogleMapsUrl = (place) => {
+const getMapsEmbedUrl = (place) => {
   if (place.location?.lat && place.location?.lng) {
-    return `https://www.google.com/maps/search/?api=1&query=${place.location.lat},${place.location.lng}`;
+    return `https://www.google.com/maps?q=${place.location.lat},${place.location.lng}&hl=en&z=14&output=embed`;
   }
   const query = encodeURIComponent(`${place.name || "Malta place"} Malta`);
-  return `https://www.google.com/maps/search/?api=1&query=${query}`;
+  return `https://www.google.com/maps?q=${query}&hl=en&z=14&output=embed`;
 };
 
-export default function RecommendationsPage({ token }) {
+export default function RecommendationsPage({ token, onNavigate }) {
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [mapPlace, setMapPlace] = useState(null);
 
   const loadRecommendations = async () => {
     if (!token) return;
@@ -128,7 +129,7 @@ export default function RecommendationsPage({ token }) {
                     }}
                   />
                   <div className="rec-match-pill">
-                    <span>{matchPercent}% match</span>
+                    <span>{matchPercent.toFixed(2)}% match</span>
                   </div>
                 </div>
 
@@ -163,9 +164,9 @@ export default function RecommendationsPage({ token }) {
                         <button
                           type="button"
                           className="rec-meta-item rec-location-link"
-                          onClick={() => window.open(getGoogleMapsUrl(place), "_blank")}
+                          onClick={() => setMapPlace(place)}
                         >
-                          View on Google Maps
+                          View on map
                         </button>
                       )}
                     </div>
@@ -184,14 +185,71 @@ export default function RecommendationsPage({ token }) {
           })}
         </div>
 
+        {mapPlace && (
+          <div
+            className="map-modal-backdrop"
+            onClick={() => setMapPlace(null)}
+          >
+            <div
+              className="map-modal"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="map-modal-header">
+                <h3>{mapPlace.name}</h3>
+                <button
+                  type="button"
+                  className="map-modal-close"
+                  onClick={() => setMapPlace(null)}
+                >
+                  ×
+                </button>
+              </div>
+              <div className="map-modal-body">
+                <iframe
+                  src={getMapsEmbedUrl(mapPlace)}
+                  width="100%"
+                  height="300"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                  title={`Map of ${mapPlace.name}`}
+                />
+              </div>
+              <div className="map-modal-footer">
+                <button
+                  type="button"
+                  className="recs-footer-btn primary"
+                  onClick={() =>
+                    window.open(
+                      getMapsEmbedUrl(mapPlace).replace("&output=embed", ""),
+                      "_blank"
+                    )
+                  }
+                >
+                  Open in Google Maps
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <section className="recs-footer-cta">
           <h3>Want Different Recommendations?</h3>
           <p>Update your preferences to discover new places that match your interests.</p>
           <div className="recs-footer-buttons">
-            <button className="recs-footer-btn secondary" type="button">
+            <button
+              className="recs-footer-btn secondary"
+              type="button"
+              onClick={() => onNavigate && onNavigate("places")}
+            >
               Browse All Places
             </button>
-            <button className="recs-footer-btn primary" type="button">
+            <button
+              className="recs-footer-btn primary"
+              type="button"
+              onClick={() => onNavigate && onNavigate("preferences")}
+            >
               Update Preferences
             </button>
           </div>

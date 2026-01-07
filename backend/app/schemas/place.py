@@ -10,3 +10,4 @@ class PlaceCreate(BaseModel):
     price_level: Optional[str] = None # "low"|"medium"|"high"
     tags: Optional[List[str]] = []    # extra tags e.g. ["family","outdoor"]
     image: Optional[str] = None       # URL or path to an image for this place
+    duration: Optional[str] = None    # e.g. "2h", "Half day", "All day"
